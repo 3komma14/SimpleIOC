@@ -34,3 +34,20 @@ Example:
 	c.For<IEngine>().Use<DieselEngine>();
 
 	var vehicle = c.Get<IVehicle>();
+
+If you want the same instance injected
+
+	var c = new Container();
+	var mc = new MotorCycle();
+	c.For<IVehicle>().Use(mc);
+	
+	var vehicle1 = c.Get<IVehicle>();
+	var vehicle2 = c.Get<IVehicle>();
+	// vehicle1 and vehicle2 is the same object
+
+Concrete classes can be resolved
+	
+	var c = new Container();
+	c.For<IEngine>().Use<DieselEngine>();
+
+	var vehicle = c.Get<Car>(); // resolves car and dependencies

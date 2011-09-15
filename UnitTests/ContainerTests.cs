@@ -119,6 +119,39 @@ namespace UnitTests
             Assert.Throws<InvalidOperationException>(() => c.For<IVehicle>().Use<Train>());
         }
 
+        [Test]
+        public void Get_WhenInstanceIsClassWithDependency_ReturnsClass()
+        {
+            // Arrange
+            var c = new Container();
+            c.For<IEngine>().Use<DieselEngine>();
+
+            // Act
+            var vehicle = c.Get<Car>();
+
+            // Assert
+            Assert.IsNotNull(vehicle);
+            Assert.IsNotNull(vehicle.Engine);
+        }
+
+
+        [Test]
+        public void Get_WhenInstanceIsExplicitSetAndResolvedSeveralTimes_ReturnsSameInstance()
+        {
+            // Arrange
+            var mc = new Motorcycle();
+            var c = new Container();
+            c.For<IVehicle>().Use(mc);
+
+            // Act
+            var vehicle1 = c.Get<IVehicle>();
+            var vehicle2 = c.Get<IVehicle>();
+
+            // Assert
+            Assert.IsNotNull(vehicle1);
+            Assert.IsNotNull(vehicle2);
+            Assert.AreSame(vehicle1, vehicle2);
+        }
 
     }
 }
